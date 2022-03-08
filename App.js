@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import SQLite from 'react-native-sqlite-storage';
 import {
   SafeAreaView,
@@ -17,26 +17,37 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
+import {
+  db,
+  getRows,
+  getData,
+  addUser,
+  createTable,
+  makeQuery,
+  getDataByQuery,
+} from './helpers/dbConnection';
+// let db = SQLite.openDatabase({name: 'todo.db'});
 const App = () => {
-  useEffect(() => {
-    const db = SQLite.openDatabase(
-      {
-        name: 'todo.db',
-        location: 'default',
-        createdFromLocation: '~www/todo.db',
-      },
-      () => {
-        alert('Hello');
-      },
-      error => {
-        return console.log(error);
-      },
-    );
+  const [data, setData] = useState([]);
+
+  useEffect(async () => {
+    try {
+      addUser(5, 20);
+      getRows();
+      // const res = await getData();
+      const res = await getDataByQuery('SELECT * FROM testtable where age= 15');
+      setData(res);
+      // makeQuery('CREATE TABLE IF NOT EXISTS testtable (name INT, age INT);');
+      // createTable();
+    } catch (error) {
+      alert(error);
+    }
   }, []);
   return (
     <SafeAreaView>
-      <Text>Hello</Text>
+      {data.map(v => (
+        <Text>{v.age}</Text>
+      ))}
     </SafeAreaView>
   );
 };
