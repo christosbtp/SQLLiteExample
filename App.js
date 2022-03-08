@@ -6,7 +6,8 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
+import SQLite from 'react-native-sqlite-storage';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,6 +19,21 @@ import {
 } from 'react-native';
 
 const App = () => {
+  useEffect(() => {
+    const db = SQLite.openDatabase(
+      {
+        name: 'todo.db',
+        location: 'default',
+        createdFromLocation: '~www/todo.db',
+      },
+      () => {
+        alert('Hello');
+      },
+      error => {
+        return console.log(error);
+      },
+    );
+  }, []);
   return (
     <SafeAreaView>
       <Text>Hello</Text>
