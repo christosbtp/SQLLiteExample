@@ -37,8 +37,14 @@ const App = () => {
   const [data, setData] = useState([]);
   const dirs = RNFetchBlob.fs.dirs;
 
-  const test = () => {
-    addColumnToPreviewArticlesDatabase('TESTCOLUMN2', 'VARCHAR');
+  const test = async () => {
+    // addColumnToArticlesDatabase('TESTCOLUMN', 'VARCHAR');
+    // addColumnToPreviewArticlesDatabase('NEWCOLUMN', 'VARCHAR');
+    // makeQuery('DROP TABLE test');
+    const rows = await getData();
+    rows.map(v => {
+      console.log(v.name === 5);
+    });
   };
   useEffect(() => {
     // console.log(JSON.stringify(dirs.DocumentDir));
